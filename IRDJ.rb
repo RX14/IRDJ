@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'cinch'
 
-#FUCK YOU TWITCH! IMPLEMENT IRC PROPERLY!
+#Patch reply method to work with twitch: FUCK YOU TWITCH! IMPLEMENT IRC PROPERLY!
 class Cinch::Message
     def reply(string)
         string = string.to_s.gsub('<','&lt;').gsub('>','&gt;')
@@ -9,13 +9,16 @@ class Cinch::Message
     end
 end
 
+$pconf = {}
+
 #Load plugin files
 Dir[File.dirname(__FILE__) + '/plugins/*.rb'].each {|file| require file }
 
-bot = Cinch::Bot.new do
-    configure do |conf|
-        require File.dirname(__FILE__) + '/IRDJ.conf'
+@bot = Cinch::Bot.new do
+    on :message, "!IRDJ" do |m|
+        m.reply "I am IRDJ, a SUPERIOR set of cinchrb plugins made for Lordmau5"
     end
 end
+require_relative "conf"
 
-bot.start
+@bot.start
