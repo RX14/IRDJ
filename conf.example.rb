@@ -1,4 +1,4 @@
-@bot.configure do |conf|
+$bot.configure do |conf|
     conf.server   = "irc.twitch.tv"
     conf.channels = ["#mytwitchchannel"]
     conf.nick     = "twitchbot1000"
