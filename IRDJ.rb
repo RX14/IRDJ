@@ -9,16 +9,17 @@ class Cinch::Message
     end
 end
 
+#global plugin config hash
 $pconf = {}
 
 #Load plugin files
 Dir[File.dirname(__FILE__) + '/plugins/*.rb'].each {|file| require file }
 
-@bot = Cinch::Bot.new do
+$bot = Cinch::Bot.new do
     on :message, "!IRDJ" do |m|
         m.reply "I am IRDJ, a SUPERIOR set of cinchrb plugins made for Lordmau5"
     end
 end
 require_relative "conf"
 
-@bot.start
+$bot.start
