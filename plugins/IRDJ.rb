@@ -8,7 +8,7 @@ class IRDJ
     @suffix = //
 
     match /^((!songs)|(!songrequest))$/, method: :song_help
-    match /^!songrequest (.+)$/, method: :execute
+    match /^!songrequest (.+)$/, method: :song_req
 
     $vlc_q = Queue.new
 
@@ -18,9 +18,8 @@ class IRDJ
         vlc.connected?
         loop do
             song = $vlc_q.pop
-            Cinch::Logger. "q:#{song}"
+            info "QUEUED:#{song}"
             vlc.play song
-            puts "waiting till stopped"
             sleep 1 until vlc.stopped?
         end
     end
@@ -29,8 +28,22 @@ class IRDJ
         m.reply "Use !songrequest [Youtube/Soundcloud/mp3/etc. URL] to request a song."
     end
 
-    def execute(m, link)
-        puts "e:#{link}"
-        $vlc_q << link
+    def song_req(m, link)
+        info "RAW:#{link}"
+        $vlc_q << process(link)
+    end
+
+    def process(link)
+        link = "http://#{link}" unless link =~ /http(s)?:\/\//
+
+        case link
+        when /^http(s)?:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]*).*$/
+                debug "when1"
+                debug $1
+                debug $2
+        end
+
+        info "PROCESSED:#{link}"
+        return link
     end
 end
