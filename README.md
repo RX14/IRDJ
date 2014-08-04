@@ -1,6 +1,6 @@
 IRDJ
 ====
-I am IRDJ, a set of open source bot plugins made for @Lordmau5
+I am IRDJ, a set of open source bot plugins made for [@Lordmau5](https://github.com/Lordmau5)
 
 Installation
 ============
@@ -10,4 +10,4 @@ Installation
 
 Usage
 =====
-_Duplicate_ `conf.example.rb` to `conf.rb` then edit to your desire. Then run `IRDJ.rb`
+Duplicate `conf.example.rb` to `conf.rb` then edit to your desire. Then run `IRDJ.rb`
