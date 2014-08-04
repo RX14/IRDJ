@@ -4,12 +4,10 @@ I am IRDJ, a set of open source bot plugins made for @Lordmau5
 
 Installation
 ============
-Get a recent version of ruby and run these commands:
-
-`gem install bundler`
-
-`bundle`
+1. Install Ruby 2.1.2
+2. Run `gem install bundler`
+3. Run `bundle`
 
 Usage
 =====
-Rename the sample config file then edit to your desire. Then run `IRDJ.rb`
+_Duplicate_ `conf.example.rb` to `conf.rb` then edit to your desire. Then run `IRDJ.rb`
