@@ -1,6 +1,6 @@
 IRDJ
 ====
-I am IRDJ, a SUPERIOR set of cinchrb plugins made for Lordmau5
+I am IRDJ, a set of open source bot plugins made for @Lordmau5
 
 Installation
 ============

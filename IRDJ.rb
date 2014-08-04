@@ -17,7 +17,7 @@ Dir[File.dirname(__FILE__) + '/plugins/*.rb'].each {|file| require file }
 
 @bot = Cinch::Bot.new do
     on :message, "!IRDJ" do |m|
-        m.reply "I am IRDJ, a SUPERIOR set of cinchrb plugins made for Lordmau5"
+        m.reply "I am IRDJ, a set of open source bot plugins made for Lordmau5. http://www.github.com/RX14/IRDJ"
     end
 end
 require_relative "conf"
