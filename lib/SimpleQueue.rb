@@ -23,8 +23,9 @@ class SimpleQueue
     def push(object)
         @mutex.synchronize do
             @store.push(object)
+            i = @store.size
         end
-        return object
+        return object, i
     end
 
     def size
