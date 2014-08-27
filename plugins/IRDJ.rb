@@ -41,7 +41,7 @@ class IRDJ
                 m.reply "Hey #{m.user}, your request is coming up in #{position} songs"
 
             when false
-                m.reply "Dammit #{m.user}, y u no give me correct link *kills a kitten*"
+                m.reply "Dammit #{m.user}, y u no give me correct link! *kills a kitten*"
         end
 
 
