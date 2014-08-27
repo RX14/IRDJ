@@ -34,11 +34,19 @@ class IRDJ
     end
 
     def song_req(m, link)
+        url, success = process(link)
+        case success
+            when true
+                nil, position = @vlc_q.push url
+                m.reply "Hey #{m.user}, your request is coming up in #{position} songs"
 
-        song, success = process(link)
-        @vlc_q.push song if success
+            when false
+                m.reply "Dammit #{m.user}, y u no give me correct link *kills a kitten*"
+        end
 
-        @vlc_q.each_index {|int| debug "QUEUE #{int}: #{@vlc_q[int]}"}
+
+
+        @vlc_q.each_with_index {|item, i| debug "QUEUE #{i}: #{item.to_s}"}
     end
 
     def process(link)
@@ -52,6 +60,8 @@ class IRDJ
             else
                 success = false
         end
+
+        debug "parse #{success ? "success" : "failure"}: #{link}"
 
         return link, success
     end
