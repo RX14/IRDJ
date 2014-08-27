@@ -1,5 +1,6 @@
 require 'cinch'
-require 'thread'
+require 'uri'
+require_relative '../lib/SimpleQueue.rb'
 require 'vlc-client'
 
 class IRDJ
@@ -10,18 +11,22 @@ class IRDJ
     match /^((!songs)|(!songrequest))$/, method: :song_help
     match /^!songrequest (.+)$/, method: :song_req
 
-    $vlc_q = Queue.new
+    def initialize(*args)
+        super
+        @vlc_q = SimpleQueue.new
 
-    vlcworker = Thread.new do
-        #Start server and connect
-        vlc = VLC::System.new
-        vlc.connected?
-        loop do
-            song = $vlc_q.pop
-            info "QUEUED:#{song}"
-            vlc.play song
-            sleep 1 until vlc.stopped?
+        Thread.new do
+            #Start server and connect
+            vlc = VLC::System.new
+            vlc.connected?
+            loop do
+                song = @vlc_q.pop
+                info "POPED:#{song}"
+                vlc.play song
+                sleep 1 until vlc.stopped?
+            end
         end
+
     end
 
     def song_help(m)
@@ -29,21 +34,31 @@ class IRDJ
     end
 
     def song_req(m, link)
-        info "RAW:#{link}"
-        $vlc_q << process(link)
+
+        song, success = process(link)
+        @vlc_q.push song if success
+
+        @vlc_q.each_index {|int| debug "QUEUE #{int}: #{@vlc_q[int]}"}
     end
 
     def process(link)
-        link = "http://#{link}" unless link =~ /http(s)?:\/\//
+        return link, false unless valid? link
 
         case link
-        when /^http(s)?:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]*).*$/
-                debug "when1"
-                debug $1
-                debug $2
+            when /^https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*$/
+                code = $1
+                link = "https://www.youtube.com/watch?v=#{code}"
+                success = true
+            else
+                success = false
         end
 
-        info "PROCESSED:#{link}"
-        return link
+        return link, success
     end
+
+    def valid?(link)
+        uri = URI.parse link
+        return uri.kind_of? URI::HTTP
+    end
+
 end
