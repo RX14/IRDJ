@@ -1,5 +1,6 @@
 require 'thread'
 
+##TODO: Comments/Doc
 class SimpleQueue
     include Enumerable
 
@@ -14,18 +15,21 @@ class SimpleQueue
     def pop
         r = nil
         loop do
-            @mutex.synchronize { r = @store.shift }
+            r = pop_nonblock
             return r unless r == nil
             sleep 0.1
         end
     end
 
+    def pop_nonblock
+        @mutex.synchronize { @store.shift }
+    end
+
     def push(object)
         @mutex.synchronize do
             @store.push(object)
-            i = @store.size
+            @store.size
         end
-        return i
     end
 
     def size
