@@ -37,7 +37,7 @@ class IRDJ
         url, success = process(link)
         case success
             when true
-                nil, position = @vlc_q.push url
+                position = @vlc_q.push url
                 m.reply "Hey #{m.user}, your request is coming up in #{position} songs"
 
             when false

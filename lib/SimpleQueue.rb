@@ -25,7 +25,7 @@ class SimpleQueue
             @store.push(object)
             i = @store.size
         end
-        return object, i
+        return i
     end
 
     def size
